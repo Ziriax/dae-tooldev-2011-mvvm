@@ -14,6 +14,7 @@ namespace DogFight
         [DataMember]
         public readonly List<Fighter> Fighters = new List<Fighter>();
 
+        #region Serialization
         private static DataContractSerializer CreateSerializer()
         {
             var serializer = new DataContractSerializer(
@@ -60,5 +61,6 @@ namespace DogFight
                 return (World) deserializedObject;
             }
         }
+        #endregion
     }
 }
