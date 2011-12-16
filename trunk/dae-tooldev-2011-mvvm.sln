@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightModel", "DogFightMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightTests", "DogFightTests\DogFightTests.csproj", "{D50A4EB2-10F3-4F30-B6C7-C65DBCED2B82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightApp", "DogFightApp\DogFightApp.csproj", "{7582A7F8-DE1A-4448-A862-A50287FAF31A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{D50A4EB2-10F3-4F30-B6C7-C65DBCED2B82}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D50A4EB2-10F3-4F30-B6C7-C65DBCED2B82}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D50A4EB2-10F3-4F30-B6C7-C65DBCED2B82}.Release|x86.ActiveCfg = Release|Any CPU
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|x86.ActiveCfg = Debug|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|x86.Build.0 = Debug|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|Any CPU.ActiveCfg = Release|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|x86.ActiveCfg = Release|x86
+		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
