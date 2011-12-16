@@ -41,6 +41,7 @@ namespace DogFight
             using( var xmlWriter = XmlWriter.Create(stream, xmlSettings) )
             {
                 serializer.WriteObject(xmlWriter, this);
+                xmlWriter.Flush();
             }
         }
 
