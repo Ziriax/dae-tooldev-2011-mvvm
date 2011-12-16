@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 using DogFight;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,6 +20,9 @@ namespace DogFightTests
             world.Fighters.Add(spitfire);
             world.Fighters.Add(stuka);
 
+            // Serialize to memory stream. 
+            // Tests should not change the environment,
+            // so we prefer not to use the file system.
             var stream = new MemoryStream();
             world.SaveTo(stream);
             Assert.IsTrue(stream.Length > 0 );
@@ -32,22 +33,33 @@ namespace DogFightTests
             world = World.LoadFrom(stream);
 
             Assert.IsNotNull(world.Fighters);
-            Assert.AreEqual(world.Fighters.Count, 2);
+            Assert.AreEqual(2, world.Fighters.Count);
 
             spitfire = world.Fighters.FirstOrDefault(f => f.Name == "Spitfire");
             Assert.IsNotNull(spitfire);
-            Assert.AreEqual(spitfire.Name, "Spitfire");
-            Assert.AreEqual(spitfire.PositionX, 100);
-            Assert.AreEqual(spitfire.PositionY, 200);
-            Assert.AreEqual(spitfire.Rotation, 45);
+            Assert.AreEqual("Spitfire", spitfire.Name);
+            Assert.AreEqual(100, spitfire.PositionX);
+            Assert.AreEqual(200, spitfire.PositionY);
+            Assert.AreEqual(45, spitfire.Rotation);
             
             stuka = world.Fighters.FirstOrDefault(f => f.Name == "Stuka");
             Assert.IsNotNull(stuka);
-            Assert.AreEqual(stuka.Name, "Stuka");
-            Assert.AreEqual(stuka.PositionX, 300);
-            Assert.AreEqual(stuka.PositionY, 400);
-            Assert.AreEqual(stuka.Rotation, 90);
-            Assert.AreEqual(stuka.Target, spitfire);
+            Assert.AreEqual("Stuka", stuka.Name);
+            Assert.AreEqual(300, stuka.PositionX);
+            Assert.AreEqual(400, stuka.PositionY);
+            Assert.AreEqual(90, stuka.Rotation);
+            Assert.AreEqual(spitfire, stuka.Target);
+
+            // Dump result to debug window for demo purposes
+            // WARNING: The StreamReader will close the stream when it is closed!
+            // And the using statement will call Dispose on the StreamReader,
+            // which will close the stream. 
+            // So we have to do this debug dump at the end of our test.
+            stream.Position = 0;
+            using (var reader = new StreamReader(stream))
+            {
+                Debug.WriteLine(reader.ReadToEnd());
+            }
         }
     }
 }
