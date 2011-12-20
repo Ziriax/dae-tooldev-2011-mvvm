@@ -11,10 +11,12 @@
         <RowDefinition Height="*"/>
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <ListBox Grid.Row="0">
+      <ListBox Grid.Row="0" 
+               SelectedItem="{Binding SelectedFighter}" 
+               ItemsSource="{Binding Fighters}" DisplayMemberPath="Name" >
       </ListBox>
       <WrapPanel Grid.Row="1" Orientation="Horizontal">
-        <Button Content="Add"/>
+        <Button Content="Add" Command="{Binding AddFighterCommand}"/>
         <Button Content="Remove"/>
       </WrapPanel>
     </Grid>

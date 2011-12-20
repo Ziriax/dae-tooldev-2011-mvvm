@@ -6,8 +6,8 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
-      <RowDefinition Height="2*"/>
     </Grid.RowDefinitions>
     <app:MenuView Grid.Row="0"/>
     <Grid Grid.Row="1">
@@ -16,7 +16,8 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <app:WorldMasterView Grid.Column="0"/>
-      <app:FighterDetailView Grid.Column="1"/>
+      <app:FighterDetailView Grid.Column="1" 
+                             DataContext="{Binding SelectedFighter}"/>
     </Grid>
     <app:SceneView Grid.Row="2"/>
   </Grid>

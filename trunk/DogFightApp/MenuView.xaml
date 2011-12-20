@@ -7,10 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
   <GroupBox Header="Menu">
     <WrapPanel Orientation="Horizontal">
-      <Button Content="New"/>
-      <Button Content="Open..."/>
-      <Button Content="Save As..."/>
-      <Button Content="Save" />
+      <Button Content="New" Command="{Binding NewCommand}"/>
+      <Button Content="Open..." Command="{Binding OpenCommand}"/>
+      <Button Content="Save As..." Command="{Binding SaveAsCommand}"/>
+      <Button Content="Save" Command="{Binding SaveCommand}"/>
       <Button Content="Undo"/>
       <Button Content="Redo"/>
     </WrapPanel>

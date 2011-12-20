@@ -21,6 +21,7 @@ namespace DogFightApp
     {
         public MainWindow()
         {
+            DataContext = new MainContext();
             InitializeComponent();
         }
     }
