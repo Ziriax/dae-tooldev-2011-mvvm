@@ -62,6 +62,9 @@
     <Compile Include="SceneView.xaml.cs">
       <DependentUpon>SceneView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DummyCommand.cs" />
+    <Compile Include="ViewModels\FighterContext.cs" />
+    <Compile Include="ViewModels\MainContext.cs" />
     <Compile Include="WorldMasterView.xaml.cs">
       <DependentUpon>WorldMasterView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DogFightModel\DogFightModel.csproj">
+      <Project>{7AC87594-FD6B-4E46-8C97-5FCACD98EDE7}</Project>
+      <Name>DogFightModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
