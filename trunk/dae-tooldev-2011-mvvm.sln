@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightTests", "DogFightTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightApp", "DogFightApp\DogFightApp.csproj", "{7582A7F8-DE1A-4448-A862-A50287FAF31A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogFightContexts", "DogFightContexts\DogFightContexts.csproj", "{32793265-BC4A-4F44-A022-800DFC62F43D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaeMvvmFramework", "DaeMvvmFramework\DaeMvvmFramework.csproj", "{09530FF7-D425-4172-B97C-795516A33470}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7582A7F8-DE1A-4448-A862-A50287FAF31A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32793265-BC4A-4F44-A022-800DFC62F43D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32793265-BC4A-4F44-A022-800DFC62F43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32793265-BC4A-4F44-A022-800DFC62F43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32793265-BC4A-4F44-A022-800DFC62F43D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09530FF7-D425-4172-B97C-795516A33470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09530FF7-D425-4172-B97C-795516A33470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09530FF7-D425-4172-B97C-795516A33470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09530FF7-D425-4172-B97C-795516A33470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

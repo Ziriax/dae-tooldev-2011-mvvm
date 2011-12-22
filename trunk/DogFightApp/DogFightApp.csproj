@@ -62,9 +62,6 @@
     <Compile Include="SceneView.xaml.cs">
       <DependentUpon>SceneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\DummyCommand.cs" />
-    <Compile Include="ViewModels\FighterContext.cs" />
-    <Compile Include="ViewModels\MainContext.cs" />
     <Compile Include="WorldMasterView.xaml.cs">
       <DependentUpon>WorldMasterView.xaml</DependentUpon>
     </Compile>
@@ -125,11 +122,20 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DaeMvvmFramework\DaeMvvmFramework.csproj">
+      <Project>{09530FF7-D425-4172-B97C-795516A33470}</Project>
+      <Name>DaeMvvmFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DogFightContexts\DogFightContexts.csproj">
+      <Project>{32793265-BC4A-4F44-A022-800DFC62F43D}</Project>
+      <Name>DogFightContexts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DogFightModel\DogFightModel.csproj">
       <Project>{7AC87594-FD6B-4E46-8C97-5FCACD98EDE7}</Project>
       <Name>DogFightModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

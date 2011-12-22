@@ -12,6 +12,7 @@ namespace DogFightTests
         [TestMethod]
         public void TestSerialization()
         {
+            // Arrange: create a world 
             var world = new World();
 
             var spitfire = new Fighter {Name = "Spitfire", PositionX = 100, PositionY = 200, Rotation = 45};
@@ -20,18 +21,19 @@ namespace DogFightTests
             world.Fighters.Add(spitfire);
             world.Fighters.Add(stuka);
 
-            // Serialize to memory stream. 
+            // Act: Serialize to memory stream. 
             // Tests should not change the environment,
             // so we prefer not to use the file system.
             var stream = new MemoryStream();
             world.SaveTo(stream);
             Assert.IsTrue(stream.Length > 0 );
 
-            // Deserialize and check result.
+            // Act: Deserialize and check result.
             stream.Position = 0;
 
             world = World.LoadFrom(stream);
 
+            // Assert: correctness of deserialized world.
             Assert.IsNotNull(world.Fighters);
             Assert.AreEqual(2, world.Fighters.Count);
 
@@ -41,6 +43,7 @@ namespace DogFightTests
             Assert.AreEqual(100, spitfire.PositionX);
             Assert.AreEqual(200, spitfire.PositionY);
             Assert.AreEqual(45, spitfire.Rotation);
+            Assert.AreEqual(null, spitfire.Target);
             
             stuka = world.Fighters.FirstOrDefault(f => f.Name == "Stuka");
             Assert.IsNotNull(stuka);

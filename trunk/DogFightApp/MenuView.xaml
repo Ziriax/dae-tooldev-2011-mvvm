@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Name="menu"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
   <GroupBox Header="Menu">
     <WrapPanel Orientation="Horizontal">
       <Button Content="New" Command="{Binding NewCommand}"/>
-      <Button Content="Open..." Command="{Binding OpenCommand}"/>
-      <Button Content="Save As..." Command="{Binding SaveAsCommand}"/>
+      <Button Content="Open..." Command="{Binding OpenCommand}" 
+              CommandParameter="{Binding ElementName=menu, Path=OpenFilePathProvider}"/>
+      <Button Content="Save As..." Command="{Binding SaveAsCommand}"
+              CommandParameter="{Binding ElementName=menu, Path=SaveFilePathProvider}"/>
       <Button Content="Save" Command="{Binding SaveCommand}"/>
       <Button Content="Undo"/>
       <Button Content="Redo"/>
