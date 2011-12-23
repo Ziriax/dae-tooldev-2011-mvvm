@@ -28,7 +28,7 @@
       <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Rotation}"/>
       <DockPanel Grid.Row="3" Grid.Column="1" LastChildFill="true">
         <Button DockPanel.Dock="Right" Command="{Binding ClearTargetCommand}" Content="X"/>
-        <ComboBox SelectedItem="{Binding Target}" ItemsSource="{Binding Parent.Fighters}" DisplayMemberPath="Name"/>
+        <ComboBox SelectedItem="{Binding Target}" ItemsSource="{Binding World.Fighters}" DisplayMemberPath="Name"/>
       </DockPanel>
     </Grid>
   </GroupBox>

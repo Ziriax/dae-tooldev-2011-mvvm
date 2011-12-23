@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Input;
 using DaeMvvmFramework;
@@ -6,9 +7,9 @@ namespace DogFight
 {
     public class FighterContext : PropertyChangeSource
     {
-        public WorldContext Parent { get; private set; }
+        public WorldContext World { get; private set; }
 
-        #region property string Name
+        #region undoable property: string Name
 
         private string _name;
 
@@ -17,12 +18,12 @@ namespace DogFight
         public string Name
         {
             get { return _name; }
-            set { Change(ref _name, value, NameProperty); }
+            set { World.Main.Swap(_name, value, newValue => Change(ref _name, newValue, NameProperty)); }
         }
 
         #endregion
 
-        #region property FighterContext Target
+        #region undoable property: FighterContext Target
 
         private FighterContext _target;
 
@@ -31,12 +32,12 @@ namespace DogFight
         public FighterContext Target
         {
             get { return _target; }
-            set { Change(ref _target, value, TargetProperty); }
+            set { World.Main.Swap(_target, value, newValue => Change(ref _target, value, TargetProperty)); }
         }
 
         #endregion
 
-        #region property Point Position
+        #region undoable property: Point Position
 
         private Point _position;
 
@@ -45,12 +46,12 @@ namespace DogFight
         public Point Position
         {
             get { return _position; }
-            set { Change(ref _position, value, PositionProperty); }
+            set { World.Main.Swap(_position, value, newValue => Change(ref _position, newValue, PositionProperty)); }
         }
 
         #endregion
 
-        #region property double Rotation
+        #region undoable property double Rotation
 
         private double _rotation;
 
@@ -59,7 +60,7 @@ namespace DogFight
         public double Rotation
         {
             get { return _rotation; }
-            set { Change(ref _rotation, value, RotationProperty); }
+            set { World.Main.Swap(_rotation, value, newValue => Change(ref _rotation, newValue, RotationProperty)); }
         }
 
         #endregion
@@ -68,7 +69,7 @@ namespace DogFight
 
         public FighterContext(WorldContext parent)
         {
-            Parent = parent;
+            World = parent;
             ClearTargetCommand = CommandFactory.Create(ClearTarget, CanClearTarget, this, TargetProperty);
         }
 

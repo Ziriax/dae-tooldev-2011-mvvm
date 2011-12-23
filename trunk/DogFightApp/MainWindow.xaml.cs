@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DaeMvvmFramework;
 using DogFight;
 
 namespace DogFightApp
@@ -23,7 +24,7 @@ namespace DogFightApp
     {
         public MainWindow()
         {
-            DataContext = new MainContext();
+            DataContext = new MainContext(new History());
             InitializeComponent();
         }
 

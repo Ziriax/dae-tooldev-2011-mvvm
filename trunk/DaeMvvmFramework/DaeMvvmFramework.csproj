@@ -49,13 +49,16 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandOfT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UndoRedo\MutationFactory.cs" />
     <Compile Include="UndoRedo\ListOperation.cs" />
     <Compile Include="UndoRedo\Mutation.cs" />
-    <Compile Include="UndoRedo\MutationManager.cs" />
+    <Compile Include="UndoRedo\MutationGroup.cs" />
+    <Compile Include="UndoRedo\History.cs" />
     <Compile Include="UndoRedo\ListMutation.cs" />
     <Compile Include="UndoRedo\MutationEventArgs.cs" />
     <Compile Include="UndoRedo\MutationEventKind.cs" />
-    <Compile Include="UndoRedo\SetPropertyMutation.cs" />
+    <Compile Include="UndoRedo\SwapMutation.cs" />
+    <Compile Include="UndoRedo\Transaction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

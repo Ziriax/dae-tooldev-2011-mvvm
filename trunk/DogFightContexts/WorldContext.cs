@@ -8,19 +8,19 @@ namespace DogFight
 {
     public class WorldContext : PropertyChangeSource
     {
-        public MainContext Parent { get; private set; }
+        public MainContext Main { get; private set; }
 
         public ObservableCollection<FighterContext> Fighters { get; private set; }
 
         public WorldContext(MainContext parent)
         {
-            Parent = parent;
+            Main = parent;
             Fighters = new ObservableCollection<FighterContext>();
         }
 
         public WorldContext(MainContext parent, World worldModel)
         {
-            Parent = parent;
+            Main = parent;
 
             // Create fighter contexts from fighter models.
             // Use an anonymous class to associate 
