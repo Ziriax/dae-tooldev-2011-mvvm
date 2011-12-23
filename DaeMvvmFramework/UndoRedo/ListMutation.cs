@@ -6,19 +6,19 @@ namespace DaeMvvmFramework
     /// <summary>
     /// A simple Mutation that inserts or removes an item from a list
     /// </summary>
-    public abstract class ListMutation<T> : Mutation 
+    public class ListMutation<T> : Mutation 
     {
         private readonly IList<T> _list;
         private readonly T _item;
         private readonly int _index;
         private readonly int _operation;
 
-        protected T Item
+        public T Item
         {
             get { return _item; }
         }
 
-        protected int Index
+        public int Index
         {
             get { return _index; }
         }
@@ -28,12 +28,12 @@ namespace DaeMvvmFramework
             get { return (ListOperation)_operation; }
         }
 
-        protected IList<T> List
+        public IList<T> List
         {
             get { return _list; }
         }
 
-        protected ListMutation(ListOperation operation, IList<T> list, T item, int index)
+        public ListMutation(ListOperation operation, IList<T> list, T item, int index)
         {
             Debug.Assert(list != null);
             Debug.Assert(index <= list.Count);
@@ -44,7 +44,7 @@ namespace DaeMvvmFramework
             _index = index;
         }
 
-        protected ListMutation(ListOperation operation, IList<T> list, T item)
+        public ListMutation(ListOperation operation, IList<T> list, T item)
             : this(operation, list, item, 
                 operation==ListOperation.Insert ? list.Count : list.IndexOf(item))
         {

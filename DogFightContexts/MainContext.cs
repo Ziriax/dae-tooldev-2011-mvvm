@@ -7,7 +7,7 @@ namespace DogFight
 {
     public delegate string FilePathProvider(string currentFilePath);
 
-    public class MainContext : PropertyChangeSource
+    public class MainContext : UndoableContext
     {
         private int _newFighterCounter;
 
@@ -32,7 +32,6 @@ namespace DogFight
         }
 
         #endregion
-
 
         #region property FighterContext SelectedFighter
 
@@ -62,14 +61,16 @@ namespace DogFight
 
         #endregion
 
-        public MainContext()
+        public MainContext(History history):base(history)
         {
             NewCommand = CommandFactory.Create(New);
             OpenCommand = CommandFactory.Create<FilePathProvider>(Open);
             SaveAsCommand = CommandFactory.Create<FilePathProvider>(SaveAs);
             SaveCommand = CommandFactory.Create(Save, CanSave, this, FilePathProperty);
+
             AddFighterCommand = CommandFactory.Create(AddFighter);
-            RemoveFighterCommand = CommandFactory.Create(RemoveFighter, CanRemoveFighter, this, SelectedFighterProperty);
+            RemoveFighterCommand = CommandFactory.Create(RemoveFighter, CanRemoveFighter, 
+                this, SelectedFighterProperty);
 
             New();
         }
@@ -81,41 +82,64 @@ namespace DogFight
 
         private void RemoveFighter()
         {
-            FighterContext selectedFighter = SelectedFighter;
-            int fighterIndex = World.Fighters.IndexOf(selectedFighter);
-            World.Fighters.RemoveAt(fighterIndex);
-
-            // Make sure no remaining fighter has the SelectedFighter as Target
-            foreach (var fighter in World.Fighters)
+            using( var transaction = BeginTransaction() )
             {
-                if (fighter.Target == selectedFighter)
-                {
-                    fighter.Target = null;
-                }
-            }
+                var fighters = World.Fighters;
 
-            // Select the fighter after the removed one,
-            // or if the removed one was the last one, 
-            // select the one before.
-            SelectedFighter = World.Fighters.Count > 0 
-                ? World.Fighters[Math.Min(fighterIndex, World.Fighters.Count-1)] 
-                : null;
+                var removeSelectedFighter = MutationFactory.Remove(fighters, SelectedFighter);
+                transaction.Do(removeSelectedFighter);
+
+                // Make sure no remaining fighter has the SelectedFighter as Target
+                foreach (var fighter in fighters)
+                {
+                    if (fighter.Target == SelectedFighter)
+                    {
+                        fighter.Target = null;
+                    }
+                }
+
+                // Select the fighter after the removed one,
+                // or if the removed one was the last one, 
+                // select the one before.
+                FighterContext nextSelectedFighter = null;
+
+                if (removeSelectedFighter.Index < fighters.Count - 1)
+                {
+                    nextSelectedFighter = fighters[removeSelectedFighter.Index + 1];
+                }
+                else if (removeSelectedFighter.Index > 0)
+                {
+                    nextSelectedFighter = fighters[removeSelectedFighter.Index - 1];
+                }
+
+                SelectedFighter = nextSelectedFighter;
+            }
         }
 
         private void AddFighter()
         {
-            string newFighterName = "Fighter" + (++_newFighterCounter);
-            var newFighter = new FighterContext(World) {Name = newFighterName};
-            World.Fighters.Add(newFighter);
+            using (var addFighterGroup = BeginTransaction())
+            {
+                string newFighterName = "Fighter" + (++_newFighterCounter);
+                var newFighter = new FighterContext(World) {Name = newFighterName};
 
-            SelectedFighter = newFighter;
+                var addNewFighter = MutationFactory.Add(World.Fighters, newFighter);
+                addFighterGroup.Do(addNewFighter);
+
+                SelectedFighter = newFighter;
+            }
+        }
+
+        protected void New(WorldContext world)
+        {
+            ClearHistory();
+            _newFighterCounter = 0;
+            World = world;
         }
 
         public void New()
         {
-            _newFighterCounter = 0;
-
-            World = new WorldContext(this);
+            New(new WorldContext(this));
         }
 
         public void Open(FilePathProvider filePathProvider)
@@ -127,7 +151,9 @@ namespace DogFight
                 using (var stream = File.OpenRead(newFilePath))
                 {
                     World worldModel = DogFight.World.LoadFrom(stream);
-                    World = new WorldContext(this, worldModel);
+                    var worldContext = new WorldContext(this, worldModel);
+                    New(worldContext);
+
                     FilePath = newFilePath;
                 }
             }

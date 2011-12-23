@@ -14,8 +14,8 @@
       <Button Content="Save As..." Command="{Binding SaveAsCommand}"
               CommandParameter="{Binding ElementName=menu, Path=SaveFilePathProvider}"/>
       <Button Content="Save" Command="{Binding SaveCommand}"/>
-      <Button Content="Undo"/>
-      <Button Content="Redo"/>
+      <Button Content="Undo" Command="{Binding UndoCommand}"/>
+      <Button Content="Redo" Command="{Binding RedoCommand}"/>
     </WrapPanel>
   </GroupBox>
 </UserControl>

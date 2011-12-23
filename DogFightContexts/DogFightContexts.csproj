@@ -45,6 +45,7 @@
     <Compile Include="FighterContext.cs" />
     <Compile Include="MainContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UndoableContext.cs" />
     <Compile Include="WorldContext.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 <Configuration>
   <NamespaceFolders>
-    <SkipFolder>09530FF7-D425-4172-B97C-795516A33470/d:UndoRedo</SkipFolder>
     <SkipFolder>09530FF7-D425-4172-B97C-795516A33470/d:Commands</SkipFolder>
+    <SkipFolder>09530FF7-D425-4172-B97C-795516A33470/d:UndoRedo</SkipFolder>
   </NamespaceFolders>
 </Configuration>

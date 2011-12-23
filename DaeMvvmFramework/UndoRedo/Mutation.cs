@@ -7,7 +7,7 @@ namespace DaeMvvmFramework
     /// Typically Do and Redo share the same code.
     /// </summary>
     /// <remarks>
-    /// Only the MutationManager can call Do, Redo and Undo;
+    /// Only the History can call Do, Redo and Undo;
     /// hence these methods are marked internal protected.
     /// </remarks>
     public abstract class Mutation
