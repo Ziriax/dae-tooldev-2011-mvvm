@@ -3,19 +3,22 @@ using System;
 namespace DaeMvvmFramework
 {
     /// <summary>
-    /// A simple Mutation that swaps a value using a setter delegate.
+    /// A mutation that swaps a value using a delegate.
     /// </summary>
-    public class SwapMutation<TValue> : Mutation 
+    public class SwapMutation<T> : Mutation 
     {
-        private readonly Action<TValue> _setter;
-        private TValue _oldValue;
-        private TValue _newValue;
+        private readonly Func<T, T> _swapper;
+        private T _value;
 
-        public SwapMutation(Action<TValue> setter, TValue oldValue, TValue newValue)
+        public SwapMutation(Func<T,T> swapper, T newValue)
         {
-            _setter = setter;
-            _oldValue = oldValue;
-            _newValue = newValue;
+            _swapper = swapper;
+            _value = newValue;
+        }
+
+        protected internal override void Do()
+        {
+            Swap();
         }
 
         protected internal override void Undo()
@@ -30,10 +33,7 @@ namespace DaeMvvmFramework
 
         private void Swap()
         {
-            TValue restoreValue = _oldValue;
-            _setter(_newValue);
-            _oldValue = _newValue;
-            _newValue = restoreValue;
+            _value = _swapper(_value);
         }
     }
 }

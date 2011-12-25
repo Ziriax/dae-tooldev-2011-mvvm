@@ -1,21 +1,22 @@
 ﻿<UserControl x:Class="DogFightApp.MenuView"
+             x:Name="menu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             x:Name="menu"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:DogFight;assembly=DogFightContexts" 
+             xmlns:app="clr-namespace:DogFightApp"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:MainContext}"
              d:DesignHeight="300" d:DesignWidth="300">
-  <GroupBox Header="Menu">
-    <WrapPanel Orientation="Horizontal">
-      <Button Content="New" Command="{Binding NewCommand}"/>
-      <Button Content="Open..." Command="{Binding OpenCommand}" 
-              CommandParameter="{Binding ElementName=menu, Path=OpenFilePathProvider}"/>
-      <Button Content="Save As..." Command="{Binding SaveAsCommand}"
-              CommandParameter="{Binding ElementName=menu, Path=SaveFilePathProvider}"/>
-      <Button Content="Save" Command="{Binding SaveCommand}"/>
-      <Button Content="Undo" Command="{Binding UndoCommand}"/>
-      <Button Content="Redo" Command="{Binding RedoCommand}"/>
-    </WrapPanel>
-  </GroupBox>
+    <GroupBox Header="Menu">
+        <WrapPanel Orientation="Horizontal">
+            <Button Content="New" Command="{Binding NewCommand}"/>
+            <Button Content="Open..." Command="{Binding OpenCommand}" CommandParameter="{x:Static app:FileDialogProvider.OpenFilePathProvider}"/>
+            <Button Content="Save As..." Command="{Binding SaveAsCommand}" CommandParameter="{x:Static app:FileDialogProvider.SaveFilePathProvider}"/>
+            <Button Content="Save" Command="{Binding SaveCommand}"/>
+            <Button Content="Undo" Command="{Binding UndoCommand}"/>
+            <Button Content="Redo" Command="{Binding RedoCommand}"/>
+        </WrapPanel>
+    </GroupBox>
 </UserControl>

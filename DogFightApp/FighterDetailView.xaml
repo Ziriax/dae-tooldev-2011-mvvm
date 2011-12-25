@@ -7,29 +7,29 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=DogFight:FighterContext}"
              d:DesignHeight="300" d:DesignWidth="300">
-  <GroupBox Header="FighterDetailView">
-    <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
-      <Label Grid.Row="1" Grid.Column="0" Content="Position:"/>
-      <Label Grid.Row="2" Grid.Column="0" Content="Rotation:"/>
-      <Label Grid.Row="3" Grid.Column="0" Content="Target:"/>
-      <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
-      <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Position}"/>
-      <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Rotation}"/>
-      <DockPanel Grid.Row="3" Grid.Column="1" LastChildFill="true">
-        <Button DockPanel.Dock="Right" Command="{Binding ClearTargetCommand}" Content="X"/>
-        <ComboBox SelectedItem="{Binding Target}" ItemsSource="{Binding World.Fighters}" DisplayMemberPath="Name"/>
-      </DockPanel>
-    </Grid>
-  </GroupBox>
+    <GroupBox Header="FighterDetailView">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Position:"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Rotation:"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Target:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Position}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Rotation}"/>
+            <DockPanel Grid.Row="3" Grid.Column="1" LastChildFill="true">
+                <Button DockPanel.Dock="Right" Command="{Binding ClearTargetCommand}" Content="X"/>
+                <ComboBox SelectedItem="{Binding Target}" ItemsSource="{Binding World.Fighters}" DisplayMemberPath="Name"/>
+            </DockPanel>
+        </Grid>
+    </GroupBox>
 </UserControl>

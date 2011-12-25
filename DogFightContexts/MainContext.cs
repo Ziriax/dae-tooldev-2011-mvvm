@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
 using DaeMvvmFramework;
@@ -18,6 +18,9 @@ namespace DogFight
 
         public ICommand AddFighterCommand { get; private set; }
         public ICommand RemoveFighterCommand { get; private set; }
+
+        public ICommand MoveFighterDownCommand { get; private set; }
+        public ICommand MoveFighterUpCommand { get; private set; }
 
         #region property WorldContext World
 
@@ -42,7 +45,22 @@ namespace DogFight
         public FighterContext SelectedFighter
         {
             get { return _selectedFighter; }
-            set { Change(ref _selectedFighter, value, SelectedFighterProperty); }
+            
+            set
+            {
+                if (Change(_selectedFighter, value, x => Swap(ref _selectedFighter, x, SelectedFighterProperty)))
+                {
+                    // When selected fighter is removed from world, clear it.
+                    if (value == null)
+                    {
+                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+                    }
+                    else
+                    {
+                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+                    }
+                }
+            }
         }
 
         #endregion
@@ -61,7 +79,7 @@ namespace DogFight
 
         #endregion
 
-        public MainContext(History history):base(history)
+        public MainContext(Evolution evolution):base(evolution)
         {
             NewCommand = CommandFactory.Create(New);
             OpenCommand = CommandFactory.Create<FilePathProvider>(Open);
@@ -69,47 +87,72 @@ namespace DogFight
             SaveCommand = CommandFactory.Create(Save, CanSave, this, FilePathProperty);
 
             AddFighterCommand = CommandFactory.Create(AddFighter);
-            RemoveFighterCommand = CommandFactory.Create(RemoveFighter, CanRemoveFighter, 
+            RemoveFighterCommand = CommandFactory.Create(RemoveFighter, IsFighterSelected, 
+                this, SelectedFighterProperty);
+
+            MoveFighterUpCommand = CommandFactory.Create(MoveSelectedFighterUp, IsFighterSelected, 
+                this, SelectedFighterProperty);
+
+            MoveFighterDownCommand = CommandFactory.Create(MoveSelectedFighterDown, IsFighterSelected, 
                 this, SelectedFighterProperty);
 
             New();
         }
 
-        private bool CanRemoveFighter()
+        private void MoveSelectedFighterDown()
+        {
+            using (BeginTransaction())
+            {
+                var fighters = World.Fighters;
+                int index = fighters.IndexOf(SelectedFighter);
+
+                if (index < fighters.Count - 1)
+                {
+                    fighters.Move(index, index + 1);
+                }
+            }
+        }
+
+        private void MoveSelectedFighterUp()
+        {
+            using (BeginTransaction())
+            {
+                var fighters = World.Fighters;
+                int index = fighters.IndexOf(SelectedFighter);
+
+                if (index > 0 )
+                {
+                    fighters.Move(index, index - 1);
+                }
+            }
+        }
+
+        private bool IsFighterSelected()
         {
             return SelectedFighter != null;
         }
 
         private void RemoveFighter()
         {
-            using( var transaction = BeginTransaction() )
+            using( BeginTransaction() )
             {
                 var fighters = World.Fighters;
 
-                var removeSelectedFighter = MutationFactory.Remove(fighters, SelectedFighter);
-                transaction.Do(removeSelectedFighter);
-
-                // Make sure no remaining fighter has the SelectedFighter as Target
-                foreach (var fighter in fighters)
-                {
-                    if (fighter.Target == SelectedFighter)
-                    {
-                        fighter.Target = null;
-                    }
-                }
+                int selectedFighterIndex = fighters.IndexOf(SelectedFighter);
+                fighters.RemoveAt(selectedFighterIndex);
 
                 // Select the fighter after the removed one,
                 // or if the removed one was the last one, 
                 // select the one before.
                 FighterContext nextSelectedFighter = null;
 
-                if (removeSelectedFighter.Index < fighters.Count - 1)
+                if (selectedFighterIndex < fighters.Count )
                 {
-                    nextSelectedFighter = fighters[removeSelectedFighter.Index + 1];
+                    nextSelectedFighter = fighters[selectedFighterIndex];
                 }
-                else if (removeSelectedFighter.Index > 0)
+                else if (selectedFighterIndex > 0 )
                 {
-                    nextSelectedFighter = fighters[removeSelectedFighter.Index - 1];
+                    nextSelectedFighter = fighters[selectedFighterIndex - 1];
                 }
 
                 SelectedFighter = nextSelectedFighter;
@@ -118,13 +161,11 @@ namespace DogFight
 
         private void AddFighter()
         {
-            using (var addFighterGroup = BeginTransaction())
+            using (BeginTransaction())
             {
                 string newFighterName = "Fighter" + (++_newFighterCounter);
                 var newFighter = new FighterContext(World) {Name = newFighterName};
-
-                var addNewFighter = MutationFactory.Add(World.Fighters, newFighter);
-                addFighterGroup.Do(addNewFighter);
+                World.Fighters.Add(newFighter);
 
                 SelectedFighter = newFighter;
             }
@@ -134,6 +175,7 @@ namespace DogFight
         {
             ClearHistory();
             _newFighterCounter = 0;
+            SelectedFighter = null;
             World = world;
         }
 
@@ -182,6 +224,14 @@ namespace DogFight
         public bool CanSave()
         {
             return !string.IsNullOrEmpty(FilePathProperty);
+        }
+
+        private void HandleWorldFightersCollectionChange(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if( !World.Fighters.Contains(SelectedFighter) )
+            {
+                SelectedFighter = null;
+            }
         }
     }
 }

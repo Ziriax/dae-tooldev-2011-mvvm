@@ -1,34 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Data;
 
 namespace DaeMvvmFramework
 {
     public static class MutationFactory
     {
-        public static ListMutation<T> Add<T>(IList<T> list, T item)
+        public static SwapMutation<T> Swap<T>(Func<T, T> swapper, T newValue)
         {
-            return new ListMutation<T>(ListOperation.Insert, list, item);
+            return new SwapMutation<T>(swapper, newValue);
         }
 
-        public static ListMutation<T> Remove<T>(IList<T> list, T item)
+        public static DelegateMutation Execute(Action @do, Action redo, Action undo)
         {
-            return new ListMutation<T>(ListOperation.Remove, list, item);
+            return new DelegateMutation(@do, redo, undo);
         }
 
-        public static ListMutation<T> InsertAt<T>(IList<T> list, T item, int index)
+        public static DelegateMutation Execute(Action redo, Action undo)
         {
-            return new ListMutation<T>(ListOperation.Insert, list, item, index);
+            return new DelegateMutation(redo, redo, undo);
         }
 
-        public static ListMutation<T> RemoveAt<T>(IList<T> list, int index)
+        public static DelegateMutation Execute(Action swap)
         {
-            return new ListMutation<T>(ListOperation.Remove, list, list[index], index);
-        }
-
-        public static SwapMutation<TValue> Swap<TValue>(TValue oldValue, TValue newValue, Action<TValue> setter)
-        {
-            return new SwapMutation<TValue>(setter, oldValue, newValue);
+            return new DelegateMutation(swap, swap, swap);
         }
     }
 }

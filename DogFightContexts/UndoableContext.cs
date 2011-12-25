@@ -4,42 +4,32 @@ using DaeMvvmFramework;
 
 namespace DogFight
 {
-    public class UndoableContext : PropertyChangeSource
+    public class UndoableContext : UndoableChangeSource
     {
-        private readonly History _history;
+        private readonly Evolution _evolution;
 
         public ICommand UndoCommand { get; private set; }
         public ICommand RedoCommand { get; private set; }
 
-        public UndoableContext(History history)
+        public UndoableContext(Evolution evolution)
         {
-            _history = history;
+            _evolution = evolution;
 
-            UndoCommand = CommandFactory.Create(history.Undo, () => history.CanUndo,
-                history, History.CanUndoProperty);
+            UndoCommand = CommandFactory.Create(evolution.Undo, () => evolution.CanUndo,
+                evolution, Evolution.CanUndoProperty);
 
-            RedoCommand = CommandFactory.Create(history.Redo, () => history.CanRedo,
-                history, History.CanRedoProperty);
+            RedoCommand = CommandFactory.Create(evolution.Redo, () => evolution.CanRedo,
+                evolution, Evolution.CanRedoProperty);
         }
 
         public void ClearHistory()
         {
-            _history.Clear();
+            _evolution.Clear();
         }
 
-        public void Do(Mutation mutation)
+        public override Evolution Evolution
         {
-            _history.Do(mutation);
-        }
-
-        public Transaction BeginTransaction()
-        {
-            return _history.BeginTransaction();
-        }
-
-        public void Swap<TValue>(TValue oldValue, TValue newValue, Action<TValue> setter)
-        {
-            Do(MutationFactory.Swap(oldValue, newValue, setter));
+            get { return _evolution; }
         }
     }
 }
