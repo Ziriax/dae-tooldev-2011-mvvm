@@ -1,24 +1,36 @@
-﻿<Window x:Class="DogFightApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window x:Class="DogFightApp.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:app="clr-namespace:DogFightApp"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:DogFight;assembly=DogFightContexts" xmlns:app="clr-namespace:DogFightApp" x:Name="menu"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=vm:MainContext}" d:DesignHeight="300" d:DesignWidth="300"
+        Title="MainWindow" Width="640" Height="480">
+
+  <Window.InputBindings>
+    <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}" />
+    <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}"
+                CommandParameter="{x:Static app:FileDialogProvider.OpenFilePathProvider}" />
+    <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
+    <KeyBinding Key="S" Modifiers="Control+Shift" Command="{Binding SaveAsCommand}"
+                CommandParameter="{x:Static app:FileDialogProvider.SaveFilePathProvider}" />
+    <KeyBinding Key="Z" Modifiers="Control" Command="{Binding UndoCommand}" />
+    <KeyBinding Key="Y" Modifiers="Control" Command="{Binding RedoCommand}" />
+  </Window.InputBindings>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="2*" MinHeight="100" />
+      <RowDefinition Height="3*" />
     </Grid.RowDefinitions>
-    <app:MenuView Grid.Row="0"/>
+    <app:MenuView Grid.Row="0" />
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <app:WorldMasterView Grid.Column="0"/>
-      <app:FighterDetailView Grid.Column="1" 
-                             DataContext="{Binding SelectedFighter}"/>
+      <app:WorldMasterView Grid.Column="0" />
+      <app:FighterDetailView Grid.Column="1" DataContext="{Binding SelectedFighter}" />
     </Grid>
-    <app:SceneView Grid.Row="2"/>
+    <app:SceneView Grid.Row="2" />
   </Grid>
 </Window>

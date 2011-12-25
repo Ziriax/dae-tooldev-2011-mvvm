@@ -59,6 +59,7 @@
     <Compile Include="FighterDetailView.xaml.cs">
       <DependentUpon>FighterDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileDialogProvider.cs" />
     <Compile Include="SceneView.xaml.cs">
       <DependentUpon>SceneView.xaml</DependentUpon>
     </Compile>

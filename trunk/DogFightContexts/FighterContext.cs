@@ -1,15 +1,16 @@
 using System;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using DaeMvvmFramework;
 
 namespace DogFight
 {
-    public class FighterContext : PropertyChangeSource
+    public class FighterContext : UndoableChangeSource
     {
         public WorldContext World { get; private set; }
 
-        #region undoable property: string Name
+        #region property: string Name
 
         private string _name;
 
@@ -18,12 +19,12 @@ namespace DogFight
         public string Name
         {
             get { return _name; }
-            set { World.Main.Swap(_name, value, newValue => Change(ref _name, newValue, NameProperty)); }
+            set { Change(_name, value, newValue => Swap(ref _name, newValue, NameProperty)); }
         }
 
         #endregion
 
-        #region undoable property: FighterContext Target
+        #region property: FighterContext Target
 
         private FighterContext _target;
 
@@ -32,12 +33,27 @@ namespace DogFight
         public FighterContext Target
         {
             get { return _target; }
-            set { World.Main.Swap(_target, value, newValue => Change(ref _target, value, TargetProperty)); }
+            
+            set
+            {
+                if( Change(_target, value, newValue => Swap(ref _target, value, TargetProperty)) )
+                {
+                    // When target fighter is removed from world, clear it.
+                    if( value == null )
+                    {
+                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+                    }
+                    else
+                    {
+                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+                    }
+                }
+            }
         }
 
         #endregion
 
-        #region undoable property: Point Position
+        #region property: Point Position
 
         private Point _position;
 
@@ -46,12 +62,12 @@ namespace DogFight
         public Point Position
         {
             get { return _position; }
-            set { World.Main.Swap(_position, value, newValue => Change(ref _position, newValue, PositionProperty)); }
+            set { Change(_position, value, newValue => Swap(ref _position, newValue, PositionProperty)); }
         }
 
         #endregion
 
-        #region undoable property double Rotation
+        #region property double Rotation
 
         private double _rotation;
 
@@ -60,17 +76,25 @@ namespace DogFight
         public double Rotation
         {
             get { return _rotation; }
-            set { World.Main.Swap(_rotation, value, newValue => Change(ref _rotation, newValue, RotationProperty)); }
+            set { Change(_rotation, value, newValue => Swap(ref _rotation, newValue, RotationProperty)); }
         }
 
         #endregion
 
         public ICommand ClearTargetCommand { get; private set; }
 
-        public FighterContext(WorldContext parent)
+        public FighterContext(WorldContext world)
         {
-            World = parent;
+            World = world;
             ClearTargetCommand = CommandFactory.Create(ClearTarget, CanClearTarget, this, TargetProperty);
+        }
+
+        private void HandleWorldFightersCollectionChange(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (!World.Fighters.Contains(Target))
+            {
+                Target = null;
+            }
         }
 
         private bool CanClearTarget()
@@ -86,6 +110,11 @@ namespace DogFight
         public override string ToString()
         {
             return Name;
+        }
+
+        public override Evolution Evolution
+        {
+            get { return World.Main.Evolution; }
         }
     }
 }

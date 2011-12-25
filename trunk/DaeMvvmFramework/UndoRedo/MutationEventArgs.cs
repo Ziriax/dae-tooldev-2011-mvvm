@@ -5,12 +5,12 @@ namespace DaeMvvmFramework
     public sealed class MutationEventArgs : EventArgs
     {
         public readonly Mutation Mutation;
-        public readonly MutationEventKind Kind;
+        public readonly MutationMode Mode;
 
-        public MutationEventArgs(Mutation mutation, MutationEventKind kind)
+        public MutationEventArgs(Mutation mutation, MutationMode mode)
         {
             Mutation = mutation;
-            Kind = kind;
+            Mode = mode;
         }
     }
 }

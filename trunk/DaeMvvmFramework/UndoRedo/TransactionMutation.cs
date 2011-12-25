@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DaeMvvmFramework
 {
     /// <summary>
-    /// Groups multiple mutations together.
-    /// You must create a group with History.BeginTransaction()
+    /// Multiple mutations grouped together as one transaction.
     /// </summary>
-    internal class MutationGroup : Mutation
+    internal sealed class TransactionMutation : Mutation
     {
-        private readonly List<Mutation> _mutations = new List<Mutation>();
+        private readonly Mutation[] _mutations;
 
-        public void Add(Mutation mutation)
+        public TransactionMutation(IEnumerable<Mutation> mutations)
         {
-            _mutations.Add(mutation);
+            _mutations = mutations.ToArray();
         }
 
         protected internal override void Do()
@@ -22,7 +22,7 @@ namespace DaeMvvmFramework
 
         protected internal override void Redo()
         {
-            for (int i = 0; i < _mutations.Count; i++)
+            for (int i = 0; i < _mutations.Length; i++)
             {
                 _mutations[i].Redo();
             }
@@ -30,7 +30,7 @@ namespace DaeMvvmFramework
 
         protected internal override void Undo()
         {
-            for (int i = _mutations.Count; --i >= 0; )
+            for (int i = _mutations.Length; --i >= 0; )
             {
                 _mutations[i].Undo();
             }

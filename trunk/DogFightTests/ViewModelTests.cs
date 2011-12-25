@@ -71,8 +71,7 @@ namespace DogFightTests
         public void New()
         {
             // Arrange: create a main context.
-            var history = new History();
-            var main = new MainContext(history);
+            var main = new MainContext(null);
 
             // Assert: verify it has a valid and empty world.
             Assert.IsNotNull(main.World);
@@ -98,8 +97,7 @@ namespace DogFightTests
         public void AddFighter()
         {
             // Arrange: create a main context.
-            var history = new History();
-            var main = new MainContext(history);
+            var main = new MainContext(null);
 
             // Assert: we must be able to add a new fighter
             Assert.IsTrue(main.AddFighterCommand.CanExecute(null));
@@ -116,8 +114,7 @@ namespace DogFightTests
         public void RemoveFighter()
         {
             // Arrange: create a main context.
-            var history = new History();
-            var main = new MainContext(history);
+            var main = new MainContext(null);
 
             // Assert: we should not be able to remove a fighter.
             Assert.IsFalse(main.RemoveFighterCommand.CanExecute(null));

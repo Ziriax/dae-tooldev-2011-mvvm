@@ -6,16 +6,16 @@ using DaeMvvmFramework;
 
 namespace DogFight
 {
-    public class WorldContext : PropertyChangeSource
+    public class WorldContext : UndoableChangeSource
     {
         public MainContext Main { get; private set; }
 
-        public ObservableCollection<FighterContext> Fighters { get; private set; }
+        public UndoableCollection<FighterContext> Fighters { get; private set; }
 
         public WorldContext(MainContext parent)
         {
             Main = parent;
-            Fighters = new ObservableCollection<FighterContext>();
+            Fighters = new UndoableCollection<FighterContext>(this);
         }
 
         public WorldContext(MainContext parent, World worldModel)
@@ -53,7 +53,7 @@ namespace DogFight
                 }
             }
 
-            Fighters = new ObservableCollection<FighterContext>(newFighterMap.Values);
+            Fighters = new UndoableCollection<FighterContext>(this, newFighterMap.Values);
         }
 
         public World CreateModel()
@@ -95,6 +95,11 @@ namespace DogFight
             world.Fighters.AddRange(newFighterMap.Values);
 
             return world;
+        }
+
+        public override Evolution Evolution
+        {
+            get { return Main.Evolution; }
         }
     }
 }
