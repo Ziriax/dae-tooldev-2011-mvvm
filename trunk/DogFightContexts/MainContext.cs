@@ -9,14 +9,11 @@ namespace DogFight
 
     public class MainContext : UndoableContext
     {
-        private int _newFighterCounter;
-
         public ICommand NewCommand { get; private set; }
         public ICommand OpenCommand { get; private set; }
         public ICommand SaveAsCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        public ICommand AddFighterCommand { get; private set; }
         public ICommand RemoveFighterCommand { get; private set; }
 
         public ICommand MoveFighterDownCommand { get; private set; }
@@ -86,7 +83,6 @@ namespace DogFight
             SaveAsCommand = CommandFactory.Create<FilePathProvider>(SaveAs);
             SaveCommand = CommandFactory.Create(Save, CanSave, this, FilePathProperty);
 
-            AddFighterCommand = CommandFactory.Create(AddFighter);
             RemoveFighterCommand = CommandFactory.Create(RemoveFighter, IsFighterSelected, 
                 this, SelectedFighterProperty);
 
@@ -159,14 +155,12 @@ namespace DogFight
             }
         }
 
-        private void AddFighter()
+    	public void AddFighter(string name)
         {
             using (BeginTransaction())
             {
-                string newFighterName = "Fighter" + (++_newFighterCounter);
-                var newFighter = new FighterContext(World) {Name = newFighterName};
+				var newFighter = new FighterContext(World) { Name = name };
                 World.Fighters.Add(newFighter);
-
                 SelectedFighter = newFighter;
             }
         }
@@ -174,7 +168,6 @@ namespace DogFight
         protected void New(WorldContext world)
         {
             ClearHistory();
-            _newFighterCounter = 0;
             SelectedFighter = null;
             World = world;
         }

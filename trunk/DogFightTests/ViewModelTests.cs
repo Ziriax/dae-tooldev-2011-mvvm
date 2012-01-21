@@ -21,7 +21,8 @@ namespace DogFightTests
             world.Fighters.Add(stuka);
 
             // Act: convert to view model.
-            var worldContext = new WorldContext(null, world);
+        	var mainContext = new MainContext(null);
+			var worldContext = new WorldContext(mainContext, world);
 
             // Assert: verify view model
             Assert.IsNotNull(worldContext.Fighters);
@@ -99,15 +100,33 @@ namespace DogFightTests
             // Arrange: create a main context.
             var main = new MainContext(null);
 
-            // Assert: we must be able to add a new fighter
-            Assert.IsTrue(main.AddFighterCommand.CanExecute(null));
+			// Assert: no fighters should be added yet
+			Assert.AreEqual(main.World.Fighters.Count, 0);
+
+			// Act: create new fighter context
+        	var newFighterContext = new NewFighterContext(main);
+
+			// Assert: context must be invalid (name not yet given)
+			Assert.IsFalse(newFighterContext.IsValid);
+
+			// Act: set name
+        	newFighterContext.Name = "newFighter";
+
+			// Assert: context must be valid now
+			Assert.IsTrue(newFighterContext.IsValid);
+
+			// Assert: we must be able to add the fighter now.
+            Assert.IsTrue(newFighterContext.AddFighterCommand.CanExecute(null));
 
             // Act: Add a new fighter 
-            main.AddFighterCommand.Execute(null);
+            newFighterContext.AddFighterCommand.Execute(null);
 
-            // Assert: the new fighter must be the selected one.
+            // Assert: the new fighter must have been added and be the selected one.
             Assert.AreEqual(main.World.Fighters.Count, 1);
             Assert.AreEqual(main.SelectedFighter, main.World.Fighters[0]);
+
+			// Assert: the fighter should have the correct name
+			Assert.AreEqual(main.SelectedFighter.Name, newFighterContext.Name);
         }
 
         [TestMethod]

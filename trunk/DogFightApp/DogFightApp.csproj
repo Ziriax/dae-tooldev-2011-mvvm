@@ -60,6 +60,9 @@
       <DependentUpon>FighterDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileDialogProvider.cs" />
+    <Compile Include="NewFighterWindow.xaml.cs">
+      <DependentUpon>NewFighterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SceneView.xaml.cs">
       <DependentUpon>SceneView.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
     <Page Include="MenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewFighterWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SceneView.xaml">
       <SubType>Designer</SubType>
