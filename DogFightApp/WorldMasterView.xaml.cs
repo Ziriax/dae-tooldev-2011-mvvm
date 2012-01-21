@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using DogFight;
+
 namespace DogFightApp
 {
     /// <summary>
@@ -23,5 +25,21 @@ namespace DogFightApp
         {
             InitializeComponent();
         }
+
+		private void HandleAddButtonClick(object sender, RoutedEventArgs e)
+		{
+			var mainContext = (MainContext)DataContext;
+			
+			var newFighterContext = new NewFighterContext(mainContext);
+			
+			var newFighterWindow = new NewFighterWindow
+			{
+				DataContext = newFighterContext,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				Owner = Application.Current.MainWindow
+			};
+			
+			newFighterWindow.ShowDialog();
+		}
     }
 }

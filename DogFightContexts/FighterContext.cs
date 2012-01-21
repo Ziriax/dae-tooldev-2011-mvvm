@@ -38,15 +38,18 @@ namespace DogFight
             {
                 if( Change(_target, value, newValue => Swap(ref _target, value, TargetProperty)) )
                 {
-                    // When target fighter is removed from world, clear it.
-                    if( value == null )
-                    {
-                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
-                    }
-                    else
-                    {
-                        World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
-                    }
+					if (World.Fighters != null)
+					{
+						// When target fighter is removed from world, clear it.
+						if (value == null)
+						{
+							World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+						}
+						else
+						{
+							World.Fighters.CollectionChanged -= HandleWorldFightersCollectionChange;
+						}
+					}
                 }
             }
         }

@@ -1,0 +1,39 @@
+﻿<Window x:Class="DogFightApp.NewFighterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:DogFight;assembly=DogFightContexts"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:NewFighterContext}"
+        Title="NewFighterWindow"
+        FocusManager.FocusedElement="{Binding ElementName=_nameTextBox}"
+        SizeToContent="Height"
+        Width="300">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="_nameTextBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" IsDefault="True" Click="HandleOkButtonClick" Command="{Binding AddFighterCommand}">Add</Button>
+            <Button Grid.Column="2" IsCancel="True">Cancel</Button>
+        </Grid>
+    </Grid>
+</Window>

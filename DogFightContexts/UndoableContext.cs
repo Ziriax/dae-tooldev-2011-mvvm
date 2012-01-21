@@ -15,16 +15,26 @@ namespace DogFight
         {
             _evolution = evolution;
 
-            UndoCommand = CommandFactory.Create(evolution.Undo, () => evolution.CanUndo,
-                evolution, Evolution.CanUndoProperty);
+			if (_evolution != null)
+			{
+				UndoCommand = CommandFactory.Create(
+					evolution.Undo,
+					() => evolution.CanUndo,
+					evolution,
+					Evolution.CanUndoProperty);
 
-            RedoCommand = CommandFactory.Create(evolution.Redo, () => evolution.CanRedo,
-                evolution, Evolution.CanRedoProperty);
+				RedoCommand = CommandFactory.Create(
+					evolution.Redo,
+					() => evolution.CanRedo,
+					evolution,
+					Evolution.CanRedoProperty);
+			}
         }
 
         public void ClearHistory()
         {
-            _evolution.Clear();
+			if (_evolution != null)
+				_evolution.Clear();
         }
 
         public override Evolution Evolution

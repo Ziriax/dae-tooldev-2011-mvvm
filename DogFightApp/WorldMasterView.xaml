@@ -18,7 +18,7 @@
                ItemsSource="{Binding World.Fighters}" DisplayMemberPath="Name" >
             </ListBox>
             <WrapPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Add" Command="{Binding AddFighterCommand}"/>
+                <Button Content="Add" Click="HandleAddButtonClick"/>
                 <Button Content="Remove" Command="{Binding RemoveFighterCommand}"/>
                 <Button Content="Up" Command="{Binding MoveFighterUpCommand}"/>
                 <Button Content="Down" Command="{Binding MoveFighterDownCommand}"/>
