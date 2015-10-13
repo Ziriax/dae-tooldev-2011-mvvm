@@ -1,0 +1,1 @@
+MVVM demo for the tooldev course 2011 of www.digitalartsandentertainment.com
